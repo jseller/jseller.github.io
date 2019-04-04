@@ -1,0 +1,33 @@
+<html>
+<body>
+	<button id='feed'>feed</button>
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+	$('#feed').click(function() {
+		var feed = "https://jseller.blogspot.com/feeds/posts/default?callback=?";
+		$.get(feed, function(data) {
+			$(data).find("category").each(function () { 
+					var el = $(this);
+					var label = el.attr('term')
+					console.log(label);
+				});		
+			$(data).find("entry").each(function () { 
+					var el = $(this);
+					
+					var href = el.find('link[rel=alternate]').attr('href');
+					var title = el.find('link[rel=alternate]').attr('title');
+					var entry = "-----"+href+title;
+					el.find('category').each(function(){
+						var cl = $(this);
+						entry += cl.attr('term');
+					});
+					console.log(entry);
+				});
+		}, 'jsonp');
+	});
+});
+</script>
+
+</html>
