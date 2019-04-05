@@ -13,7 +13,7 @@
         body {
         background: url('back1.jpg');
         margin: 0;
-        font-family: Arial;
+        font-family: OpenSans, Arial;
         overflow: hidden;
       
 		background-position: center center;
@@ -33,7 +33,6 @@
         width: 100%;
         color: #ffffff;
         padding: 5px;
-        font-family: Arial;
         font-size: 35px;
         font-weight: bold;
         text-align: center;
@@ -48,8 +47,8 @@
         }
 
         .element {
-        width: 120px;
-        height: 160px;
+        width: 140px;
+        height: 180px;
         box-shadow: 0px 0px 12px rgba(0,255,255,0.5);
         border: 1px solid rgba(127,255,255,0.25);
         text-align: center;
@@ -58,18 +57,9 @@
 
         .element:hover {
         box-shadow: 0px 0px 12px rgba(0,255,255,0.75);
-        border: 1px solid rgba(127,255,255,0.75);
+        border: 4px solid rgba(127,255,255,0.75);
         }
 
-        .element .number {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        font-size: 12px;
-        color: #000; 
-        }
-		/* rgba(127,255,255,0.75);*/
-		
         .element .symbol {
         position: absolute;
         top: 40px;
@@ -117,12 +107,16 @@
 
 
 <div id="container"></div>
-<div id="info">Blog Posts</div>
-<div id="menu">
-    <button id="table">Table</button>
-    <button id="sphere">Sphere</button>
-    <button id="helix">Helix</button>
-    <button id="grid">Grid</button>
+<div id="info">notes on software development</div>
+<div id='terms'>
+</div>
+<div id='layout'>
+</div>
+<div id='menu'>
+    <button id='table'>Table</button>
+    <button id='sphere'>Sphere</button>
+    <button id='helix'>Helix</button>
+    <button id='grid'>Grid</button>
 </div>
 
 <!-- script src="js/three.min.js"></script>
@@ -262,7 +256,6 @@ var table = [
 
 var camera, scene, renderer;
 var controls;
-
 var objects = [];
 var targets = { table: [], sphere: [], helix: [], grid: [] };
 
@@ -271,205 +264,155 @@ animate();
 
 function init() {
 
-camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 5000 );
-camera.position.z = 1500;
-scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 5000 );
+    camera.position.z = 1100;
+    scene = new THREE.Scene();
 
-// table
+    // table
+    for ( var i = 0; i < table.length; i += 5 ) {
+        var element = document.createElement( 'div' );
+        element.className = 'element';
+        //element.style.backgroundColor = '#fff';
+        // 'rgba(0,127,127,' + ( Math.random() * 0.5 + 0.25 ) + ')';
 
-for ( var i = 0; i < table.length; i += 5 ) {
+        var number = document.createElement( 'div' );
+        number.className = 'number';
+        number.innerHTML = 'Software releases are more than code';
+        element.appendChild( number );
 
-var element = document.createElement( 'div' );
-element.className = 'element';
-//element.style.backgroundColor = '#fff';
-// 'rgba(0,127,127,' + ( Math.random() * 0.5 + 0.25 ) + ')';
+        var details = document.createElement( 'div' );
+        details.className = 'details';
+        details.style.backgroundColor = '#fff';
+        details.style.color = '#000';
+         var iconidx = Math.floor(Math.random()*3);
+        if (iconidx == 0){
+            details.innerHTML = "<a href='http://jseller.blogspot.com'>Post from Vogue Theater Revival </a>  ";
+        }
+        else if (iconidx == 1){
+            details.innerHTML = "What is happening thi si anotherhere? I want some information!!!!";
+        }
+        else{
+            details.innerHTML = "There are lots of terms in the agile development world; its clear that we still figuring out the best way to make software. ";
+        }
+        element.appendChild( details );
 
-var number = document.createElement( 'div' );
-number.className = 'number';
-number.innerHTML = 'Title';
-element.appendChild( number );
+        var object = new THREE.CSS3DObject( element );
+        object.position.x = Math.random() * 4000 - 2000;
+        object.position.y = Math.random() * 4000 - 2000;
+        object.position.z = Math.random() * 4000 - 2000;
+        scene.add( object );
+        objects.push( object );
 
-var symbol = document.createElement( 'div' );
-symbol.className = 'symbol';
-symbol.textContent = table[ i ];
-element.appendChild( symbol );
-
-var details = document.createElement( 'div' );
-details.className = 'details';
-
-    var iconidx = Math.floor(Math.random()*3);
-    if (iconidx == 0){
-        details.innerHTML = "<a href='http://google.com'>Post from Vogue Theater Revival </a>  ";
+        var object = new THREE.Object3D();
+        object.position.x = ( table[ i + 3 ] * 140 ) - 1330;
+        object.position.y = - ( table[ i + 4 ] * 180 ) + 990;
+        targets.table.push( object );
     }
-    else if (iconidx == 1){
-        details.innerHTML = "What is happening thi si anotherhere? I want some information!!!!";
+
+    // sphere
+    var vector = new THREE.Vector3();
+    for ( var i = 0, l = objects.length; i < l; i ++ ) {
+        var phi = Math.acos( -1 + ( 2 * i ) / l );
+        var theta = Math.sqrt( l * Math.PI ) * phi;
+        var object = new THREE.Object3D();
+        object.position.x = 800 * Math.cos( theta ) * Math.sin( phi );
+        object.position.y = 800 * Math.sin( theta ) * Math.sin( phi );
+        object.position.z = 800 * Math.cos( phi );
+        vector.copy( object.position ).multiplyScalar( 2 );
+        object.lookAt( vector );
+        targets.sphere.push( object );
     }
-    else{
-        details.innerHTML = "There are lots of terms in the agile development world; its clear that we still figuring out the best way to make software. ";
+
+    // helix
+    var vector = new THREE.Vector3();
+    for ( var i = 0, l = objects.length; i < l; i ++ ) {
+        var phi = i * 0.175 + Math.PI;
+        var object = new THREE.Object3D();
+        object.position.x = 900 * Math.sin( phi );
+        object.position.y = - ( i * 8 ) + 450;
+        object.position.z = 900 * Math.cos( phi );
+        vector.x = object.position.x * 2;
+        vector.y = object.position.y;
+        vector.z = object.position.z * 2;
+        object.lookAt( vector );
+        targets.helix.push( object );
     }
-element.appendChild( details );
 
-var object = new THREE.CSS3DObject( element );
-object.position.x = Math.random() * 4000 - 2000;
-object.position.y = Math.random() * 4000 - 2000;
-object.position.z = Math.random() * 4000 - 2000;
-scene.add( object );
+    // grid
+    for ( var i = 0; i < objects.length; i ++ ) {
+        var object = new THREE.Object3D();
+        object.position.x = ( ( i % 5 ) * 400 ) - 800;
+        object.position.y = ( - ( Math.floor( i / 5 ) % 5 ) * 400 ) + 800;
+        object.position.z = ( Math.floor( i / 25 ) ) * 1000 - 2000;
+        targets.grid.push( object );
+    }
 
-objects.push( object );
+    renderer = new THREE.CSS3DRenderer();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.domElement.style.position = 'absolute';
+    document.getElementById( 'container' ).appendChild( renderer.domElement );
 
-//
+    controls = new THREE.TrackballControls( camera, renderer.domElement );
+    controls.rotateSpeed = 0.5;
+    controls.addEventListener( 'change', render );
 
-var object = new THREE.Object3D();
-object.position.x = ( table[ i + 3 ] * 140 ) - 1330;
-object.position.y = - ( table[ i + 4 ] * 180 ) + 990;
+    var button = document.getElementById( 'table' );
+    button.addEventListener( 'click', function ( event ) {
+        transform( targets.table, 2000 );
+    }, false );
 
-targets.table.push( object );
+    var button = document.getElementById( 'sphere' );
+    button.addEventListener( 'click', function ( event ) {
+        transform( targets.sphere, 2000 );
+    }, false );
 
-}
+    var button = document.getElementById( 'helix' );
+    button.addEventListener( 'click', function ( event ) {
+        transform( targets.helix, 1000 );
+    }, false );
 
-// sphere
-var vector = new THREE.Vector3();
-for ( var i = 0, l = objects.length; i < l; i ++ ) {
+    var button = document.getElementById( 'grid' );
+    button.addEventListener( 'click', function ( event ) {
+        transform( targets.grid, 2000 );
+    }, false );
 
-var phi = Math.acos( -1 + ( 2 * i ) / l );
-var theta = Math.sqrt( l * Math.PI ) * phi;
-var object = new THREE.Object3D();
-
-object.position.x = 800 * Math.cos( theta ) * Math.sin( phi );
-object.position.y = 800 * Math.sin( theta ) * Math.sin( phi );
-object.position.z = 800 * Math.cos( phi );
-
-vector.copy( object.position ).multiplyScalar( 2 );
-object.lookAt( vector );
-targets.sphere.push( object );
-}
-
-// helix
-
-var vector = new THREE.Vector3();
-
-for ( var i = 0, l = objects.length; i < l; i ++ ) {
-
-var phi = i * 0.175 + Math.PI;
-
-var object = new THREE.Object3D();
-
-object.position.x = 900 * Math.sin( phi );
-object.position.y = - ( i * 8 ) + 450;
-object.position.z = 900 * Math.cos( phi );
-
-vector.x = object.position.x * 2;
-vector.y = object.position.y;
-vector.z = object.position.z * 2;
-
-object.lookAt( vector );
-
-targets.helix.push( object );
-
-}
-
-// grid
-
-for ( var i = 0; i < objects.length; i ++ ) {
-
-var object = new THREE.Object3D();
-
-object.position.x = ( ( i % 5 ) * 400 ) - 800;
-object.position.y = ( - ( Math.floor( i / 5 ) % 5 ) * 400 ) + 800;
-object.position.z = ( Math.floor( i / 25 ) ) * 1000 - 2000;
-
-targets.grid.push( object );
-
-}
-//
-renderer = new THREE.CSS3DRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
-renderer.domElement.style.position = 'absolute';
-document.getElementById( 'container' ).appendChild( renderer.domElement );
-
-//
-controls = new THREE.TrackballControls( camera, renderer.domElement );
-controls.rotateSpeed = 0.5;
-controls.addEventListener( 'change', render );
-
-var button = document.getElementById( 'table' );
-button.addEventListener( 'click', function ( event ) {
-transform( targets.table, 2000 );
-}, false );
-
-var button = document.getElementById( 'sphere' );
-button.addEventListener( 'click', function ( event ) {
-transform( targets.sphere, 2000 );
-}, false );
-
-var button = document.getElementById( 'helix' );
-button.addEventListener( 'click', function ( event ) {
-transform( targets.helix, 1000 );
-}, false );
-
-var button = document.getElementById( 'grid' );
-button.addEventListener( 'click', function ( event ) {
-transform( targets.grid, 2000 );
-}, false );
-
-transform( targets.table, 5000 );
-
-//
-
-window.addEventListener( 'resize', onWindowResize, false );
-
+    transform( targets.table, 3000 );
+    window.addEventListener( 'resize', onWindowResize, false );
 }
 
 function transform( targets, duration ) {
-TWEEN.removeAll();
+    TWEEN.removeAll();
 
-for ( var i = 0; i < objects.length; i ++ ) {
-var object = objects[ i ];
-var target = targets[ i ];
-
-new TWEEN.Tween( object.position )
-.to( { x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration )
-.easing( TWEEN.Easing.Exponential.InOut )
-.start();
-
-new TWEEN.Tween( object.rotation )
-.to( { x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration )
-.easing( TWEEN.Easing.Exponential.InOut )
-.start();
-
-}
-
-new TWEEN.Tween( this )
-.to( {}, duration * 2 )
-.onUpdate( render )
-.start();
-
+    for ( var i = 0; i < objects.length; i ++ ) {
+        var object = objects[ i ];
+        var target = targets[ i ];
+        new TWEEN.Tween( object.position )
+                    .to( { x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration )
+                    .easing( TWEEN.Easing.Exponential.InOut )
+                    .start();
+        new TWEEN.Tween( object.rotation )
+                    .to( { x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration )
+                    .easing( TWEEN.Easing.Exponential.InOut )
+                    .start();
+    }
+    new TWEEN.Tween( this ).to( {}, duration * 2 ).onUpdate( render ).start();
 }
 
 function onWindowResize() {
-
-camera.aspect = window.innerWidth / window.innerHeight;
-camera.updateProjectionMatrix();
-
-renderer.setSize( window.innerWidth, window.innerHeight );
-
-render();
-
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    render();
 }
 
 function animate() {
-
-requestAnimationFrame( animate );
-
-TWEEN.update();
-controls.update();
-
+    requestAnimationFrame( animate );
+    TWEEN.update();
+    controls.update();
 }
 
 function render() {
-
-renderer.render( scene, camera );
-
+    renderer.render( scene, camera );
 }
 
 </script>

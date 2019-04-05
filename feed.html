@@ -1,6 +1,10 @@
 <html>
 <body>
 	<button id='feed'>feed</button>
+	<div id='terms'>
+	</div>
+	<div id='layout'>
+	</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 <script>
@@ -8,22 +12,37 @@ $(document).ready(function() {
 	$('#feed').click(function() {
 		var feed = "https://jseller.blogspot.com/feeds/posts/default?callback=?";
 		$.get(feed, function(data) {
+			var terms = [];
 			$(data).find("category").each(function () { 
 					var el = $(this);
-					var label = el.attr('term')
-					console.log(label);
-				});		
+					var label = el.attr('term');
+					terms.push(label);
+    			});		
+			var totals = {};
+			terms.map( function (a) { if (a in totals) totals[a] ++; else totals[a] = 1; } );
+			console.log(totals);
+			for (var key in totals) {
+				var button =$('<input/>').attr({
+						type: 'button',
+						class: 'labelButton',
+						value: key + ' ('+totals[key]+')'
+						});
+				$("#terms").append(button);
+			}
 			$(data).find("entry").each(function () { 
 					var el = $(this);
-					
 					var href = el.find('link[rel=alternate]').attr('href');
 					var title = el.find('link[rel=alternate]').attr('title');
-					var entry = "-----"+href+title;
+					var entry = '<a href='+href+'>'+title+'</a><br/>';
+					entry += el.find('summary').text();
+					var links = '<br/>labels: '
 					el.find('category').each(function(){
 						var cl = $(this);
-						entry += cl.attr('term');
+						links += cl.attr('term');
 					});
-					console.log(entry);
+					entry += links;
+					var card = $('<div>').append(entry);
+					$('#layout').append(card);
 				});
 		}, 'jsonp');
 	});
