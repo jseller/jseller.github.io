@@ -211,16 +211,20 @@ function initCards(label) {
             $("#labels").append(button);
         }
         var count = $(data).find('entry').length;
-        totalRows = Math.floor(Math.sqrt(count*2));
+        totalRows = Math.floor(Math.sqrt(count*3));
         var startX = function (count){ 
                             if (count == 1) 
                                 return 10; 
-                            return 10 - Math.floor(totalRows/2); 
+                            if (count < 20) 
+                              return 10 - Math.floor(totalRows/2);
+                            return 1; 
                         };
         var startY = function (count){ 
                             if (count == 1) 
                                 return 5; 
-                            return 5 - Math.floor(totalRows/2); 
+                            if (count < 10) 
+                                return 5 - Math.floor(totalRows/2);
+                            return 3; 
                         };
         var x = startX(count), y = startY(count);
         start = x;
