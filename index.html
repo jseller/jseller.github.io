@@ -41,14 +41,14 @@
 
     #menu {
         position: absolute;
-        bottom: 80px;
+        bottom: 40px;
         width: 100%;
         text-align: center;
     }
 
     #labels {
         position: absolute;
-        bottom: 20px;
+        top: 50px;
         width: 100%;
         text-align: center;
     }
@@ -112,13 +112,19 @@
         color: #000000;
         background-color: rgba(0,255,255,0.75);
     }
+
     input.labelButton {
-        color: rgba(255,51,0,0.2);
+        color: rgba(0,0,255,1);
         background: transparent;
-        outline: 1px solid rgba(255,204,51,0.2);
+        outline: 1px solid rgba(0,0,255,0.5);
         border: 0px;
         padding: 5px 10px;
         cursor: pointer;
+        font-size: 11px;
+    }
+    input.labelButton:hover {
+        background-color: rgba(0,0,255,0.5);
+        color: #FFFFFF;
     }
 
 </style>
@@ -128,15 +134,14 @@
 
 <div id="container"></div>
 <div id="info">notes on software development</div>
+<div id='labels'>
+</div>
 <div id='menu'>
     <button id='feed'>jseller.blogspot.com</button>
-    <br/><br/>
-    <button id='table'>Table</button>
-    <button id='sphere'>Sphere</button>
-    <button id='helix'>Helix</button>
-    <button id='grid'>Grid</button>
-</div>
-<div id='labels'>
+    <button class='layout' style='display: none' id='table'>Table</button>
+    <button class='layout' style='display: none' id='sphere'>Sphere</button>
+    <button class='layout' style='display: none' id='helix'>Helix</button>
+    <button class='layout' style='display: none' id='grid'>Grid</button>
 </div>
 
 <script>
@@ -155,9 +160,20 @@ var camera, scene, renderer;
 var controls;
 var objects = [];
 var targets = { table: [], sphere: [], helix: [], grid: [] };
-
 var cards = [];
-function buildCard(title, text, labels, x, y) {
+var totalRows;
+var start;
+
+function reset() {
+    $('#terms').empty();
+    $('#layout').empty();
+    $('#container').empty();
+    objects = [];
+    targets = { table: [], sphere: [], helix: [], grid: [] };
+    cards = [];
+}
+
+function buildCard(title, text, labels, x, y, totalRows) {
     var card = {}
     card.title = title;
     card.text = text;
@@ -167,10 +183,10 @@ function buildCard(title, text, labels, x, y) {
     return card;
 }
 
-function initCards() {
-    $('#terms').empty();
-
-    var feed = "https://jseller.blogspot.com/feeds/posts/default?callback=?";
+function initCards(label) {
+    reset();
+    var labelUrl = typeof(label) == 'undefined' ? '': '-/'+label+'/';
+    var feed = 'https://jseller.blogspot.com/feeds/posts/default/'+labelUrl+'?callback=?';
     $.get(feed, function(data) {
         var terms = [];
         $(data).find("category").each(function () { 
@@ -180,7 +196,12 @@ function initCards() {
             });     
         var totals = {};
         terms.map( function (a) { if (a in totals) totals[a] ++; else totals[a] = 1; } );
-        console.log(totals);
+        var button =$('<input/>').attr({
+                    type: 'button',
+                    class: 'labelButton',
+                    value: 'all'
+                    });
+        $("#labels").append(button);
         for (var key in totals) {
             var button =$('<input/>').attr({
                     type: 'button',
@@ -190,8 +211,19 @@ function initCards() {
             $("#labels").append(button);
         }
         var count = $(data).find('entry').length;
-        var totalRows = Math.floor(Math.sqrt(count));
-        var x = 1, y = 1;
+        totalRows = Math.floor(Math.sqrt(count*2));
+        var startX = function (count){ 
+                            if (count == 1) 
+                                return 10; 
+                            return 10 - Math.floor(totalRows/2); 
+                        };
+        var startY = function (count){ 
+                            if (count == 1) 
+                                return 5; 
+                            return 5 - Math.floor(totalRows/2); 
+                        };
+        var x = startX(count), y = startY(count);
+        start = x;
         $(data).find("entry").each(function (index) {
                 var idx = index + 1; 
                 var el = $(this);
@@ -206,20 +238,34 @@ function initCards() {
                     links += cl.attr('term');
                     links += '</i>&nbsp;'
                 });
-                var entry = header+text+links;
                 cards.push(buildCard(header,text,links,x,y));
-                if (x == totalRows) {
-                    x = 0;
+                if (x == totalRows + start) {
+                    x = start - 1;
                     y++;
                 }
-                x++;
-                var card = $('<div>').append(entry);
-                $('#layout').append(card);
+                x++;            
+
+                var imagePath = "<img src='back1.jpg' width='100px'>";
+                cards.push(buildCard('',imagePath,'',x,y));
+                if (x == totalRows + start) {
+                    x = start - 1;
+                    y++;
+                }
+                x++;            
+
+                var imagePath = "<img src='back2.jpg' width='100px'>";
+                cards.push(buildCard('',imagePath,'',x,y));
+                if (x == totalRows + start) {
+                    x = start - 1;
+                    y++;
+                }
+                x++;            
+                
             });
-        console.log(cards);
     
         init();
         animate();
+        $('.layout').show();
 
     }, 'jsonp');
 }
@@ -229,17 +275,29 @@ $('#feed').click(function() {
     $('#feed').hide();
 });
 
+$('body').on('click', '.labelButton', function() {
+    $('#labels').empty();
+    var label = $(this).val();
+    if (label == 'all') {
+        initCards();
+    }
+    else {
+        label = label.substring(0,label.indexOf(' '));
+        initCards(label);
+    }
+});
+
 function init() {
 
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 5000 );
-    camera.position.z = 1200;
+    camera.position.z = 1000;
     scene = new THREE.Scene();
 
     cards.forEach((elem, index, array) => {
         var element = document.createElement( 'div' );
         element.className = 'element';
         var number = document.createElement( 'div' );
-        number.className = 'number';
+        number.className = 'symbol';
         number.innerHTML = elem.title;
         element.appendChild( number );
         var details = document.createElement( 'div' );
