@@ -162,7 +162,6 @@ var objects = [];
 var targets = { table: [], sphere: [], helix: [], grid: [] };
 var cards = [];
 var totalRows;
-var start;
 
 function reset() {
     $('#terms').empty();
@@ -173,14 +172,75 @@ function reset() {
     cards = [];
 }
 
-function buildCard(title, text, labels, x, y, totalRows) {
-    var card = {}
-    card.title = title;
-    card.text = text;
-    card.labels = labels;
-    card.x = x;
-    card.y = y;
-    return card;
+function showLabels(data) {
+    var terms = [];
+    $(data).find("category").each(function () { 
+            var el = $(this);
+            var label = el.attr('term');
+            terms.push(label);
+        });     
+    var totals = {};
+    terms.map( function (a) { if (a in totals) totals[a] ++; else totals[a] = 1; } );
+    var button =$('<input/>').attr({
+                type: 'button',
+                class: 'labelButton',
+                value: 'all'
+                });
+    $("#labels").append(button);
+    for (var key in totals) {
+        var button =$('<input/>').attr({
+                type: 'button',
+                class: 'labelButton',
+                value: key + ' ('+totals[key]+')'
+                });
+        $("#labels").append(button);
+    }
+}
+
+var images = ['back1.jpg', 'back2.jpg'];
+
+function setImageCards(data) {
+    for (var image in images) {
+        var title = images[image];
+        var card = {}
+        card.title = "<a class='change-back' data-url='"+title+"'>"+title+"</a>";
+        card.text = "<a class='change-back' data-url='"+title+"'><img src='"+title+"' width='100px'></a>";
+        cards.push(card);                
+    }
+}
+
+function startX(count) { 
+    if (count == 1) 
+        return 10; 
+    if (count < 20) 
+      return 10 - Math.floor(totalRows/2);
+    return 1; 
+};
+
+function startY(count) { 
+    if (count == 1) 
+        return 5; 
+    if (count < 10) 
+        return 5 - Math.floor(totalRows/2);
+    return 3; 
+};
+
+function setLayout(data) {
+    var count = cards.length;
+    totalRows = Math.ceil(Math.sqrt(cards.length));
+    var start = startX(count);
+    var end = start + totalRows;
+    var x = start;
+    var y = startY(count);
+    for (var card in cards) {
+        if (x == end) {
+            x = start;
+            y++;
+        }
+        x++;
+        cards[card].x = x;
+        cards[card].y = y;
+    }
 }
 
 function initCards(label) {
@@ -188,48 +248,9 @@ function initCards(label) {
     var labelUrl = typeof(label) == 'undefined' ? '': '-/'+label+'/';
     var feed = 'https://jseller.blogspot.com/feeds/posts/default/'+labelUrl+'?callback=?';
     $.get(feed, function(data) {
-        var terms = [];
-        $(data).find("category").each(function () { 
-                var el = $(this);
-                var label = el.attr('term');
-                terms.push(label);
-            });     
-        var totals = {};
-        terms.map( function (a) { if (a in totals) totals[a] ++; else totals[a] = 1; } );
-        var button =$('<input/>').attr({
-                    type: 'button',
-                    class: 'labelButton',
-                    value: 'all'
-                    });
-        $("#labels").append(button);
-        for (var key in totals) {
-            var button =$('<input/>').attr({
-                    type: 'button',
-                    class: 'labelButton',
-                    value: key + ' ('+totals[key]+')'
-                    });
-            $("#labels").append(button);
-        }
-        var count = $(data).find('entry').length;
-        totalRows = Math.floor(Math.sqrt(count*3));
-        var startX = function (count){ 
-                            if (count == 1) 
-                                return 10; 
-                            if (count < 20) 
-                              return 10 - Math.floor(totalRows/2);
-                            return 1; 
-                        };
-        var startY = function (count){ 
-                            if (count == 1) 
-                                return 5; 
-                            if (count < 10) 
-                                return 5 - Math.floor(totalRows/2);
-                            return 3; 
-                        };
-        var x = startX(count), y = startY(count);
-        start = x;
+        showLabels(data);
+        
         $(data).find("entry").each(function (index) {
-                var idx = index + 1; 
                 var el = $(this);
                 var href = el.find('link[rel=alternate]').attr('href');
                 var title = el.find('link[rel=alternate]').attr('title');
@@ -242,31 +263,15 @@ function initCards(label) {
                     links += cl.attr('term');
                     links += '</i>&nbsp;'
                 });
-                cards.push(buildCard(header,text,links,x,y));
-                if (x == totalRows + start) {
-                    x = start - 1;
-                    y++;
-                }
-                x++;            
-
-                var imagePath = "<img src='back1.jpg' width='100px'>";
-                cards.push(buildCard('',imagePath,'',x,y));
-                if (x == totalRows + start) {
-                    x = start - 1;
-                    y++;
-                }
-                x++;            
-
-                var imagePath = "<img src='back2.jpg' width='100px'>";
-                cards.push(buildCard('',imagePath,'',x,y));
-                if (x == totalRows + start) {
-                    x = start - 1;
-                    y++;
-                }
-                x++;            
-                
+                var card = {}
+                card.title = header;
+                card.text = text;
+                card.labels = labels;
+                cards.push(card);                
             });
-    
+
+        setImageCards(data);
+        setLayout(data);
         init();
         animate();
         $('.layout').show();
@@ -277,6 +282,12 @@ function initCards(label) {
 $('#feed').click(function() {
     initCards();
     $('#feed').hide();
+});
+
+$('body').on('click', '.change-back', function() {
+    var url = $(this).data('url');
+    var attr = 'url('+url+')';
+    $('body').css('background-image', attr);
 });
 
 $('body').on('click', '.labelButton', function() {
