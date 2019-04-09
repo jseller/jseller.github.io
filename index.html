@@ -14,7 +14,7 @@
     body {
         background: url('back1.jpg');
         margin: 0;
-        font-family: OpenSans, Arial;
+        font-family: OpenSans, Helvetica, Arial;
         overflow: hidden;
     	background-position: center center;
 		background-repeat: no-repeat;
@@ -75,12 +75,17 @@
         font-size: 16px;
         font-weight: bold;
         color: #000; 
-        
+        text-decoration: none;
+
         -webkit-filter: drop-shadow(0px 0px 20px rgba(0,255,255,0.95));
         -moz-filter: drop-shadow(0px 0px 20px rgba(0,255,255,0.95));
         -o-filter: drop-shadow(0px 0px 20px rgba(0,255,255,0.95));
         -ms-filter: drop-shadow(0px 0px 20px rgba(0,255,255,0.95));
         filter: drop-shadow(0px 0px 20px rgba(0,255,255,0.95));
+    }
+
+    .symbol:hover {
+        text-decoration: underline;
     }
 
     .element .details {
@@ -127,13 +132,23 @@
         color: #FFFFFF;
     }
 
+    .loader {
+      border: 1px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 1px solid #3498db;
+      width: 20px;
+      height: 20px;
+      -webkit-animation: spin 2s linear infinite; /* Safari */
+      animation: spin 2s linear infinite;
+    }
+
 </style>
 </head>
 <body>
 
 
 <div id="container"></div>
-<div id="info">notes on software development</div>
+<div id="info" style="display: none;">notes on software development</div>
 <div id='labels'>
 </div>
 <div id='menu'>
@@ -164,7 +179,8 @@ var cards = [];
 var totalRows;
 
 function reset() {
-    $('#terms').empty();
+
+    $('#labels').empty();
     $('#layout').empty();
     $('#container').empty();
     objects = [];
@@ -188,10 +204,11 @@ function showLabels(data) {
                 });
     $("#labels").append(button);
     for (var key in totals) {
+        var tot = totals[key] - 1;
         var button =$('<input/>').attr({
                 type: 'button',
                 class: 'labelButton',
-                value: key + ' ('+totals[key]+')'
+                value: key + ' ('+tot+')'
                 });
         $("#labels").append(button);
     }
@@ -218,16 +235,12 @@ function startX(count) {
 };
 
 function startY(count) { 
-    if (count == 1) 
-        return 5; 
-    if (count < 10) 
-        return 5 - Math.floor(totalRows/2);
-    return 3; 
+    return 5; 
 };
 
 function setLayout(data) {
     var count = cards.length;
-    totalRows = Math.ceil(Math.sqrt(cards.length));
+    totalRows = Math.ceil(cards.length * 0.4);
     var start = startX(count);
     var end = start + totalRows;
     var x = start;
@@ -244,10 +257,11 @@ function setLayout(data) {
 }
 
 function initCards(label) {
-    reset();
     var labelUrl = typeof(label) == 'undefined' ? '': '-/'+label+'/';
     var feed = 'https://jseller.blogspot.com/feeds/posts/default/'+labelUrl+'?callback=?';
     $.get(feed, function(data) {
+        reset();
+        $('.title').show();
         showLabels(data);
         
         $(data).find("entry").each(function (index) {
@@ -274,14 +288,16 @@ function initCards(label) {
         setLayout(data);
         init();
         animate();
+        $('#feed').hide();
+        $('#info').show();
         $('.layout').show();
 
     }, 'jsonp');
 }
 
 $('#feed').click(function() {
+    $('#feed').html('Loading data...<div class="loader"></div>');
     initCards();
-    $('#feed').hide();
 });
 
 $('body').on('click', '.change-back', function() {
@@ -291,7 +307,7 @@ $('body').on('click', '.change-back', function() {
 });
 
 $('body').on('click', '.labelButton', function() {
-    $('#labels').empty();
+    $(this).html('Loading data...<div class="loader"></div>');
     var label = $(this).val();
     if (label == 'all') {
         initCards();
