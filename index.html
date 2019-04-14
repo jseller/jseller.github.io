@@ -12,7 +12,6 @@
     }
 
     body {
-        background: url('back1.jpg');
         margin: 0;
         font-family: OpenSans, Helvetica, Arial;
         overflow: hidden;
@@ -22,6 +21,7 @@
   		background-size: cover;
   		background-color: #464646;
     }
+		
 
     a {
         color: #ffffff;
@@ -170,7 +170,332 @@ THREE.CSS3DObject=function(e){THREE.Object3D.call(this),this.element=e,this.elem
 
 <script>
 
-var camera,scene,renderer,controls,totalRows,objects=[],targets={table:[],sphere:[],helix:[],grid:[]},cards=[];function reset(){$("#labels").empty(),$("#layout").empty(),$("#container").empty(),objects=[],targets={table:[],sphere:[],helix:[],grid:[]},cards=[]}function showLabels(e){var t=[];$(e).find("category").each(function(){var e=$(this).attr("term");t.push(e)});var n={};t.map(function(e){e in n?n[e]++:n[e]=1});var a=$("<input/>").attr({type:"button",class:"labelButton",value:"all"});for(var r in $("#labels").append(a),n){var i=n[r]-1;a=$("<input/>").attr({type:"button",class:"labelButton",value:r+" ("+i+")"});$("#labels").append(a)}}var images=["back1.jpg","back2.jpg"];function setImageCards(e){for(var t in images){var n=images[t],a={};a.title="<a class='change-back' data-url='"+n+"'>"+n+"</a>",a.text="<a class='change-back' data-url='"+n+"'><img src='"+n+"' width='100px'></a>",cards.push(a)}}function startX(e){return 1==e?10:9-Math.floor(totalRows/2)}function startY(e){return 5}function setLayout(e){var t=cards.length;totalRows=Math.ceil(.4*cards.length);var n=startX(t),a=n+totalRows,r=n,i=startY(t);for(var o in cards)r==a&&(r=n,i++),r++,cards[o].x=r,cards[o].y=i}function initCards(e){var t="https://jseller.blogspot.com/feeds/posts/default/"+(void 0===e?"":"-/"+e+"/")+"?callback=?";$.get(t,function(e){reset(),$(".title").show(),showLabels(e),$(e).find("entry").each(function(e){var t=$(this),n="<a href="+t.find("link[rel=alternate]").attr("href")+">"+t.find("link[rel=alternate]").attr("title")+"</a><br/>",a=t.find("summary").text().substring(0,75);t.find("category").each(function(){var e=$(this);"<i>",e.attr("term"),"</i>&nbsp;"});var r={};r.title=n,r.text=a,r.labels=labels,cards.push(r)}),setImageCards(e),setLayout(e),init(),animate(),$("#feed").hide(),$("#info").show(),$(".layout").show()},"jsonp")}function init(){(camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,1,5e3)).position.z=1e3,scene=new THREE.Scene,cards.forEach((e,t,n)=>{var a=document.createElement("div");a.className="element";var r=document.createElement("div");r.className="symbol",r.innerHTML=e.title,a.appendChild(r);var i,o=document.createElement("div");o.className="details",o.innerHTML=e.text,a.appendChild(o),(i=new THREE.CSS3DObject(a)).position.x=4e3*Math.random()-2e3,i.position.y=4e3*Math.random()-2e3,i.position.z=4e3*Math.random()-2e3,scene.add(i),objects.push(i),(i=new THREE.Object3D).position.x=140*e.x-1330,i.position.y=-180*e.y+990,targets.table.push(i)});for(var e=new THREE.Vector3,t=0,n=objects.length;t<n;t++){var a=Math.acos(2*t/n-1),r=Math.sqrt(n*Math.PI)*a;(i=new THREE.Object3D).position.x=800*Math.cos(r)*Math.sin(a),i.position.y=800*Math.sin(r)*Math.sin(a),i.position.z=800*Math.cos(a),e.copy(i.position).multiplyScalar(2),i.lookAt(e),targets.sphere.push(i)}for(e=new THREE.Vector3,t=0,n=objects.length;t<n;t++){a=.175*t+Math.PI;(i=new THREE.Object3D).position.x=900*Math.sin(a),i.position.y=-8*t+450,i.position.z=900*Math.cos(a),e.x=2*i.position.x,e.y=i.position.y,e.z=2*i.position.z,i.lookAt(e),targets.helix.push(i)}for(t=0;t<objects.length;t++){var i;(i=new THREE.Object3D).position.x=t%5*400-800,i.position.y=-Math.floor(t/5)%5*400+800,i.position.z=1e3*Math.floor(t/25)-2e3,targets.grid.push(i)}(renderer=new THREE.CSS3DRenderer).setSize(window.innerWidth,window.innerHeight),renderer.domElement.style.position="absolute",document.getElementById("container").appendChild(renderer.domElement),(controls=new THREE.TrackballControls(camera,renderer.domElement)).rotateSpeed=.5,controls.addEventListener("change",render),document.getElementById("table").addEventListener("click",function(e){transform(targets.table,2e3)},!1),document.getElementById("sphere").addEventListener("click",function(e){transform(targets.sphere,2e3)},!1),document.getElementById("helix").addEventListener("click",function(e){transform(targets.helix,1e3)},!1),document.getElementById("grid").addEventListener("click",function(e){transform(targets.grid,2e3)},!1),transform(targets.table,3e3),window.addEventListener("resize",onWindowResize,!1)}function transform(e,t){TWEEN.removeAll();for(var n=0;n<objects.length;n++){var a=objects[n],r=e[n];new TWEEN.Tween(a.position).to({x:r.position.x,y:r.position.y,z:r.position.z},Math.random()*t+t).easing(TWEEN.Easing.Exponential.InOut).start(),new TWEEN.Tween(a.rotation).to({x:r.rotation.x,y:r.rotation.y,z:r.rotation.z},Math.random()*t+t).easing(TWEEN.Easing.Exponential.InOut).start()}new TWEEN.Tween(this).to({},2*t).onUpdate(render).start()}function onWindowResize(){camera.aspect=window.innerWidth/window.innerHeight,camera.updateProjectionMatrix(),renderer.setSize(window.innerWidth,window.innerHeight),render()}function animate(){requestAnimationFrame(animate),TWEEN.update(),controls.update()}function render(){renderer.render(scene,camera)}$("body").on("click",".change-back",function(){var e="url("+$(this).data("url")+")";$("body").css("background-image",e)}),$("body").on("click",".labelButton",function(){$("#labels").empty(),$("#labels").html('Loading data...<div class="loader"></div>');var e=$(this).val();"all"==e?initCards():initCards(e=e.substring(0,e.indexOf(" ")))}),$(document).ready(function(){$("#feed").html('Loading data...<div class="loader"></div>'),initCards()});
+var camera, scene, renderer;
+var controls;
+var objects = [];
+var targets = { table: [], sphere: [], helix: [], grid: [] };
+var cards = [];
+var totalRows;
+
+function reset() {
+
+    $('#labels').empty();
+    $('#layout').empty();
+    $('#container').empty();
+    objects = [];
+    targets = { table: [], sphere: [], helix: [], grid: [] };
+    cards = [];
+}
+
+function showLabels(data) {
+    var terms = [];
+    $(data).find("category").each(function () { 
+            var el = $(this);
+            var label = el.attr('term');
+            terms.push(label);
+        });     
+    var totals = {};
+    terms.map( function (a) { if (a in totals) totals[a] ++; else totals[a] = 1; } );
+    var button =$('<input/>').attr({
+                type: 'button',
+                class: 'labelButton',
+                value: 'all'
+                });
+    $("#labels").append(button);
+    for (var key in totals) {
+        var tot = totals[key] - 1;
+        var button =$('<input/>').attr({
+                type: 'button',
+                class: 'labelButton',
+                value: key + ' ('+tot+')'
+                });
+        $("#labels").append(button);
+    }
+}
+
+   /**
+ * Randomize array element order in-place.
+ * Using Durstenfeld shuffle algorithm.
+ */
+function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
+var images = ['back1.jpg','back2.jpg','p1.jpg','p2.jpg','p3.jpg','p4.jpg','p5.jpg','p6.jpg','p7.jpg','p8.jpg','p9.jpg'];
+
+function setPictureCards(data) {
+    var hash = location.hash.replace('#', '');
+    if (hash === 'pics') {
+        for (i = 0; i < 30; i++) {
+            for (var image in images) {
+                var title = images[image];
+                var card = {}
+                card.title = "<a class='change-back' data-url='"+title+"'>"+title+"</a>";
+                card.text = "<a class='change-back' data-url='"+title+"'><img src='images/"+title+"' width='130px'></a>";
+                cards.push(card);                
+            }
+        }
+    }
+    shuffleArray(cards);
+}
+
+function setImageCards(data) {
+    var max = cards.length;
+    for (i = 0; i < 1; i++) {
+        for (var image in images) {
+            if (image > max) {
+                return;
+            }
+            var title = images[image];
+            var card = {}
+            card.title = "<a class='change-back' data-url='"+title+"'>"+title+"</a>";
+            card.text = "<a class='change-back' data-url='"+title+"'><img src='images/"+title+"' width='100px'></a>";
+            cards.push(card);                
+        }
+    }
+}
+
+function startX(count) { 
+    if (count == 1) 
+        return 9; 
+    if (count < 50) 
+      return 9 - Math.floor(totalRows/2);
+    return 3; 
+};
+
+function startY(count) { 
+    if (count > 20) 
+        return 3
+    return 5; 
+};
+
+function setLayout(data) {
+    var count = cards.length;
+    totalRows = Math.ceil(Math.sqrt(cards.length));
+    var start = startX(count);
+    var end = start + totalRows;
+    var x = start;
+    var y = startY(count);
+    for (var card in cards) {
+        if (x == end) {
+            x = start;
+            y++;
+        }
+        x++;
+        cards[card].x = x;
+        cards[card].y = y;
+    }
+}
+
+function display() {
+    init();
+    animate();
+    $('#feed').hide();
+    $('#info').show();
+    $('.layout').show();
+}
+
+function initCards(label) {
+    var labelUrl = typeof(label) == 'undefined' ? '': '-/'+label+'/';
+    var feed = 'https://jseller.blogspot.com/feeds/posts/default/'+labelUrl+'?callback=?';
+    $.get(feed, function(data) {
+        reset();
+        $('.title').show();
+        showLabels(data);
+        
+        $(data).find("entry").each(function (index) {
+                var el = $(this);
+                var href = el.find('link[rel=alternate]').attr('href');
+                var title = el.find('link[rel=alternate]').attr('title');
+                var header = '<a href='+href+'>'+title+'</a><br/>';
+                var text = el.find('summary').text().substring(0,75);
+                var links = '<br/>labels: '
+                el.find('category').each(function(){
+                    var cl = $(this);
+                    links += '<i>'
+                    links += cl.attr('term');
+                    links += '</i>&nbsp;'
+                });
+                var card = {}
+                card.title = header;
+                card.text = text;
+                card.labels = labels;
+                cards.push(card);                
+            });
+
+        setImageCards(data);
+        setPictureCards(data);
+        setLayout(data);
+        display();
+    }, 'jsonp');
+}
+
+function init() {
+
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 5000 );
+    camera.position.z = 1000;
+    scene = new THREE.Scene();
+
+    cards.forEach((elem, index, array) => {
+        var element = document.createElement( 'div' );
+        element.className = 'element';
+        var number = document.createElement( 'div' );
+        number.className = 'symbol';
+        number.innerHTML = elem.title;
+        element.appendChild( number );
+        var details = document.createElement( 'div' );
+        details.className = 'details';
+        details.innerHTML = elem.text;
+        element.appendChild( details );
+        var object = new THREE.CSS3DObject( element );
+        object.position.x = Math.random() * 4000 - 2000;
+        object.position.y = Math.random() * 4000 - 2000;
+        object.position.z = Math.random() * 4000 - 2000;
+        scene.add( object );
+        objects.push( object );
+        var object = new THREE.Object3D();
+        object.position.x = ( elem.x * 140 ) - 1330;
+        object.position.y = - ( elem.y * 180 ) + 990;
+        targets.table.push( object );
+    });
+   
+    // sphere
+    var vector = new THREE.Vector3();
+    for ( var i = 0, l = objects.length; i < l; i ++ ) {
+        var phi = Math.acos( -1 + ( 2 * i ) / l );
+        var theta = Math.sqrt( l * Math.PI ) * phi;
+        var object = new THREE.Object3D();
+        object.position.x = 800 * Math.cos( theta ) * Math.sin( phi );
+        object.position.y = 800 * Math.sin( theta ) * Math.sin( phi );
+        object.position.z = 800 * Math.cos( phi );
+        vector.copy( object.position ).multiplyScalar( 2 );
+        object.lookAt( vector );
+        targets.sphere.push( object );
+    }
+
+    // helix
+    var vector = new THREE.Vector3();
+    for ( var i = 0, l = objects.length; i < l; i ++ ) {
+        var phi = i * 0.175 + Math.PI;
+        var object = new THREE.Object3D();
+        object.position.x = 900 * Math.sin( phi );
+        object.position.y = - ( i * 8 ) + 450;
+        object.position.z = 900 * Math.cos( phi );
+        vector.x = object.position.x * 2;
+        vector.y = object.position.y;
+        vector.z = object.position.z * 2;
+        object.lookAt( vector );
+        targets.helix.push( object );
+    }
+
+    // grid
+    for ( var i = 0; i < objects.length; i ++ ) {
+        var object = new THREE.Object3D();
+        object.position.x = ( ( i % 5 ) * 400 ) - 800;
+        object.position.y = ( - ( Math.floor( i / 5 ) % 5 ) * 400 ) + 800;
+        object.position.z = ( Math.floor( i / 25 ) ) * 1000 - 2000;
+        targets.grid.push( object );
+    }
+
+    renderer = new THREE.CSS3DRenderer();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.domElement.style.position = 'absolute';
+    document.getElementById( 'container' ).appendChild( renderer.domElement );
+
+    controls = new THREE.TrackballControls( camera, renderer.domElement );
+    controls.rotateSpeed = 0.5;
+    controls.addEventListener( 'change', render );
+
+    var button = document.getElementById( 'table' );
+    button.addEventListener( 'click', function ( event ) {
+        transform( targets.table, 2000 );
+    }, false );
+
+    var button = document.getElementById( 'sphere' );
+    button.addEventListener( 'click', function ( event ) {
+        transform( targets.sphere, 2000 );
+    }, false );
+
+    var button = document.getElementById( 'helix' );
+    button.addEventListener( 'click', function ( event ) {
+        transform( targets.helix, 1000 );
+    }, false );
+
+    var button = document.getElementById( 'grid' );
+    button.addEventListener( 'click', function ( event ) {
+        transform( targets.grid, 2000 );
+    }, false );
+
+    transform( targets.table, 3000 );
+    window.addEventListener( 'resize', onWindowResize, false );
+}
+
+function transform( targets, duration ) {
+    TWEEN.removeAll();
+
+    for ( var i = 0; i < objects.length; i ++ ) {
+        var object = objects[ i ];
+        var target = targets[ i ];
+        new TWEEN.Tween( object.position )
+                    .to( { x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration )
+                    .easing( TWEEN.Easing.Exponential.InOut )
+                    .start();
+        new TWEEN.Tween( object.rotation )
+                    .to( { x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration )
+                    .easing( TWEEN.Easing.Exponential.InOut )
+                    .start();
+    }
+    new TWEEN.Tween( this ).to( {}, duration * 2 ).onUpdate( render ).start();
+}
+
+function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    render();
+}
+
+function animate() {
+    requestAnimationFrame( animate );
+    TWEEN.update();
+    controls.update();
+}
+
+function render() {
+    renderer.render( scene, camera );
+}
+
+
+$('body').on('click', '.change-back', function() {
+    var url = $(this).data('url');
+    var attr = 'url(images/'+url+')';
+    $('body').css('background-image', attr);
+});
+
+$('body').on('click', '.labelButton', function() {
+    $("#labels").empty();
+    $("#labels").html('Loading data...<div class="loader"></div>');
+    var label = $(this).val();
+    if (label == 'all') {
+        initCards();
+    }
+    else {
+        label = label.substring(0,label.indexOf(' '));
+        initCards(label);
+    }
+});
+
+$(document).ready(function () {
+    $('#feed').html('Loading data...<div class="loader"></div>');
+    initCards();
+    $('body').css('background-image', 'url(images/back1.jpg)');
+});
+
 
 </script>
 </body>
