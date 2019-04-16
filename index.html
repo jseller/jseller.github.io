@@ -156,6 +156,7 @@
     <button class='layout' style='display: none' id='sphere'>Sphere</button>
     <button class='layout' style='display: none' id='helix'>Helix</button>
     <button class='layout' style='display: none' id='grid'>Grid</button>
+    <button class='layout' style='display: none' id='rotate'>Rotate</button>
 </div>
 
 <script>
@@ -224,40 +225,36 @@ function shuffleArray(array) {
         array[i] = array[j];
         array[j] = temp;
     }
+    return array
 }
 
 var images = ['back1.jpg','back2.jpg','p1.jpg','p2.jpg','p3.jpg','p4.jpg','p5.jpg','p6.jpg','p7.jpg','p8.jpg','p9.jpg'];
 
 function setPictureCards(data) {
     var hash = location.hash.replace('#', '');
-    if (hash === 'pics') {
-        for (i = 0; i < 30; i++) {
-            for (var image in images) {
-                var title = images[image];
-                var card = {}
-                card.title = "<a class='change-back' data-url='"+title+"'>"+title+"</a>";
-                card.text = "<a class='change-back' data-url='"+title+"'><img src='images/"+title+"' width='130px'></a>";
-                cards.push(card);                
-            }
-        }
-    }
-    shuffleArray(cards);
-}
-
-function setImageCards(data) {
     var max = cards.length;
-    for (i = 0; i < 1; i++) {
-        for (var image in images) {
-            if (image > max) {
-                return;
+    if (hash) {
+        if ( hash.startsWith('pics') ) {
+            found = parseInt(hash.slice(4, hash.length));
+            if (found < 420) {
+                max = found;
             }
-            var title = images[image];
-            var card = {}
-            card.title = "<a class='change-back' data-url='"+title+"'>"+title+"</a>";
-            card.text = "<a class='change-back' data-url='"+title+"'><img src='images/"+title+"' width='100px'></a>";
-            cards.push(card);                
         }
     }
+    var imageList = shuffleArray(images);
+    var displayImages = [];
+    for (var idx = 0; idx < max; idx++) {
+        var im = idx % images.length;
+        displayImages.push(imageList[im]);
+    }
+    for (var image in displayImages) {
+        var title = displayImages[image];
+        var card = {}
+        card.title = '';
+        card.text = "<a class='change-back' data-url='"+title+"'><img src='images/"+title+"' width='130px'></a>";
+        cards.push(card);
+    }
+    return shuffleArray(cards);
 }
 
 function startX(count) { 
@@ -292,7 +289,7 @@ function setLayout(data) {
     }
 }
 
-function display() {
+function displayCards() {
     init();
     animate();
     $('#feed').hide();
@@ -328,10 +325,9 @@ function initCards(label) {
                 cards.push(card);                
             });
 
-        setImageCards(data);
         setPictureCards(data);
         setLayout(data);
-        display();
+        displayCards();
     }, 'jsonp');
 }
 
@@ -470,6 +466,17 @@ function render() {
     renderer.render( scene, camera );
 }
 
+var lts = ['table', 'sphere' , 'helix', 'grid'];
+var displayIndex = 0;
+var displayTimer = null;
+function changeDisplay() {
+    displayIndex = displayIndex == 3? 0: (displayIndex % 4) + 1; 
+    var cmd = 'transform( targets.'+lts[displayIndex]+', 3000 ); changeDisplay();'
+    displayTimer = setTimeout(cmd, 6000);
+}
+$('body').on('click', '#rotate', function() {
+    changeDisplay();
+});
 
 $('body').on('click', '.change-back', function() {
     var url = $(this).data('url');
