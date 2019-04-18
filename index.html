@@ -179,10 +179,9 @@ var cards = [];
 var totalRows;
 
 function reset() {
-
-    $('#labels').empty();
-    $('#layout').empty();
-    $('#container').empty();
+    $("#labels").empty();
+    $("#layout").empty();
+    $("#container").empty();
     objects = [];
     targets = { table: [], sphere: [], helix: [], grid: [] };
     cards = [];
@@ -192,23 +191,23 @@ function showLabels(data) {
     var terms = [];
     $(data).find("category").each(function () { 
             var el = $(this);
-            var label = el.attr('term');
+            var label = el.attr("term");
             terms.push(label);
         });     
     var totals = {};
     terms.map( function (a) { if (a in totals) totals[a] ++; else totals[a] = 1; } );
-    var button =$('<input/>').attr({
-                type: 'button',
-                class: 'labelButton',
-                value: 'all'
+    var button =$("<input/>").attr({
+                type: "button",
+                class: "labelButton",
+                value: "all"
                 });
     $("#labels").append(button);
     for (var key in totals) {
         var tot = totals[key] - 1;
-        var button =$('<input/>').attr({
-                type: 'button',
-                class: 'labelButton',
-                value: key + ' ('+tot+')'
+        var button =$("<input/>").attr({
+                type: "button",
+                class: "labelButton",
+                value: key + " ("+tot+")"
                 });
         $("#labels").append(button);
     }
@@ -228,13 +227,13 @@ function shuffleArray(array) {
     return array
 }
 
-var images = ['back1.jpg','back2.jpg','p1.jpg','p2.jpg','p3.jpg','p4.jpg','p5.jpg','p6.jpg','p7.jpg','p8.jpg','p9.jpg','p10.jpg','p11.jpg','p12.jpg','p13.jpg'];
+var images = ["back1.jpg","back2.jpg","p1.jpg","p2.jpg","p3.jpg","p4.jpg","p5.jpg","p6.jpg","p7.jpg","p8.jpg","p9.jpg","p10.jpg","p11.jpg","p12.jpg","p13.jpg"];
 
 function setPictureCards(data) {
-    var hash = location.hash.replace('#', '');
+    var hash = location.hash.replace("#", "");
     var max = cards.length;
     if (hash) {
-        if ( hash.startsWith('pics') ) {
+        if ( hash.startsWith("pics") ) {
             found = parseInt(hash.slice(4, hash.length));
             if (found < 420) {
                 max = found;
@@ -250,7 +249,7 @@ function setPictureCards(data) {
     for (var image in displayImages) {
         var title = displayImages[image];
         var card = {}
-        card.title = '';
+        card.title = "";
         card.text = "<a class='change-back' data-url='"+title+"'><img src='images/"+title+"' width='130px'></a>";
         cards.push(card);
     }
@@ -258,16 +257,19 @@ function setPictureCards(data) {
 }
 
 function startX(count) { 
-    if (count == 1) 
+    if (count == 1) {
         return 9; 
-    if (count < 50) 
-      return 9 - Math.floor(totalRows/2);
+    }
+    if (count < 50) {
+      return 9 - Math.floor(totalRows/2);    
+    }
     return 3; 
 };
 
 function startY(count) { 
-    if (count > 20) 
-        return 3
+    if (count > 20) {
+        return 3;
+    }
     return 5; 
 };
 
@@ -292,31 +294,31 @@ function setLayout(data) {
 function displayCards() {
     init();
     animate();
-    $('#feed').hide();
-    $('#info').show();
-    $('.layout').show();
+    $("#feed").hide();
+    $("#info").show();
+    $(".layout").show();
 }
 
 function initCards(label) {
-    var labelUrl = typeof(label) == 'undefined' ? '': '-/'+label+'/';
-    var feed = 'https://jseller.blogspot.com/feeds/posts/default/'+labelUrl+'?callback=?';
+    var labelUrl = typeof(label) == "undefined" ? "": "-/"+label+"/";
+    var feed = "https://jseller.blogspot.com/feeds/posts/default/"+labelUrl+"?callback=?";
     $.get(feed, function(data) {
         reset();
-        $('.title').show();
+        $(".title").show();
         showLabels(data);
         
         $(data).find("entry").each(function (index) {
                 var el = $(this);
-                var href = el.find('link[rel=alternate]').attr('href');
-                var title = el.find('link[rel=alternate]').attr('title');
-                var header = '<a href='+href+'>'+title+'</a><br/>';
-                var text = el.find('summary').text().substring(0,75);
-                var links = '<br/>labels: '
-                el.find('category').each(function(){
+                var href = el.find("link[rel=alternate]").attr("href");
+                var title = el.find("link[rel=alternate]").attr("title");
+                var header = "<a href="+href+">"+title+"</a><br/>";
+                var text = el.find("summary").text().substring(0,75);
+                var links = "<br/>labels: "
+                el.find("category").each(function(){
                     var cl = $(this);
-                    links += '<i>'
-                    links += cl.attr('term');
-                    links += '</i>&nbsp;'
+                    links += "<i>"
+                    links += cl.attr("term");
+                    links += "</i>&nbsp;"
                 });
                 var card = {}
                 card.title = header;
@@ -328,7 +330,7 @@ function initCards(label) {
         setPictureCards(data);
         setLayout(data);
         displayCards();
-    }, 'jsonp');
+    }, "jsonp");
 }
 
 function init() {
@@ -337,15 +339,16 @@ function init() {
     camera.position.z = 1000;
     scene = new THREE.Scene();
 
-    cards.forEach((elem, index, array) => {
-        var element = document.createElement( 'div' );
-        element.className = 'element';
-        var number = document.createElement( 'div' );
-        number.className = 'symbol';
+    for (var index = 0; index < cards.length; ++index) {
+        var elem = cards[index];
+        var element = document.createElement( "div" );
+        element.className = "element";
+        var number = document.createElement( "div" );
+        number.className = "symbol";
         number.innerHTML = elem.title;
         element.appendChild( number );
-        var details = document.createElement( 'div' );
-        details.className = 'details';
+        var details = document.createElement( "div" );
+        details.className = "details";
         details.innerHTML = elem.text;
         element.appendChild( details );
         var object = new THREE.CSS3DObject( element );
@@ -358,7 +361,8 @@ function init() {
         object.position.x = ( elem.x * 140 ) - 1330;
         object.position.y = - ( elem.y * 180 ) + 990;
         targets.table.push( object );
-    });
+    
+    }
    
     // sphere
     var vector = new THREE.Vector3();
@@ -400,35 +404,35 @@ function init() {
 
     renderer = new THREE.CSS3DRenderer();
     renderer.setSize( window.innerWidth, window.innerHeight );
-    renderer.domElement.style.position = 'absolute';
-    document.getElementById( 'container' ).appendChild( renderer.domElement );
+    renderer.domElement.style.position = "absolute";
+    document.getElementById( "container" ).appendChild( renderer.domElement );
 
     controls = new THREE.TrackballControls( camera, renderer.domElement );
     controls.rotateSpeed = 0.5;
-    controls.addEventListener( 'change', render );
+    controls.addEventListener( "change", render );
 
-    var button = document.getElementById( 'table' );
-    button.addEventListener( 'click', function ( event ) {
+    var button = document.getElementById( "table" );
+    button.addEventListener( "click", function ( event ) {
         transform( targets.table, 2000 );
     }, false );
 
-    var button = document.getElementById( 'sphere' );
-    button.addEventListener( 'click', function ( event ) {
+    var button = document.getElementById( "sphere" );
+    button.addEventListener( "click", function ( event ) {
         transform( targets.sphere, 2000 );
     }, false );
 
-    var button = document.getElementById( 'helix' );
-    button.addEventListener( 'click', function ( event ) {
+    var button = document.getElementById( "helix" );
+    button.addEventListener( "click", function ( event ) {
         transform( targets.helix, 1000 );
     }, false );
 
-    var button = document.getElementById( 'grid' );
-    button.addEventListener( 'click', function ( event ) {
+    var button = document.getElementById( "grid" );
+    button.addEventListener( "click", function ( event ) {
         transform( targets.grid, 2000 );
     }, false );
 
     transform( targets.table, 3000 );
-    window.addEventListener( 'resize', onWindowResize, false );
+    window.addEventListener( "resize", onWindowResize, false );
 }
 
 function transform( targets, duration ) {
@@ -466,7 +470,7 @@ function render() {
     renderer.render( scene, camera );
 }
 
-var lts = ['table', 'grid', 'sphere' , 'helix'];
+var lts = ["table", "grid", "sphere" , "helix"];
 var displayIndex = 0;
 var displayTimer = null;
 function changeDisplay() {
@@ -474,41 +478,41 @@ function changeDisplay() {
     var min=0; 
     var max=images.length;  
     var random =Math.floor(Math.random() * (+max - +min)) + +min; 
-    var attr = 'url(images/'+images[random]+')';
-    $('body').css('background-image', attr);
-    var cmd = 'transform( targets.'+lts[displayIndex]+', 3000 ); changeDisplay();'
+    var attr = "url(images/"+images[random]+")";
+    $("body").css("background-image", attr);
+    var cmd = "transform( targets."+lts[displayIndex]+", 3000 ); changeDisplay();"
     displayTimer = setTimeout(cmd, 6000);
 }
 
-$('body').on('click', '#rotate', function() {
+$("body").on("click", "#rotate", function() {
     changeDisplay();
 });
 
-$('body').on('click', '.change-back', function() {
+$("body").on("click", ".change-back", function() {
     clearTimeout(displayTimer);
-    var url = $(this).data('url');
-    var attr = 'url(images/'+url+')';
-    $('body').css('background-image', attr);
+    var url = $(this).data("url");
+    var attr = "url(images/"+url+")";
+    $("body").css("background-image", attr);
 });
 
-$('body').on('click', '.labelButton', function() {
+$("body").on("click", ".labelButton", function() {
     clearTimeout(displayTimer);
     $("#labels").empty();
-    $("#labels").html('Loading data...<div class="loader"></div>');
+    $("#labels").html("Loading data...<div class='loader'></div>");
     var label = $(this).val();
-    if (label == 'all') {
+    if (label == "all") {
         initCards();
     }
     else {
-        label = label.substring(0,label.indexOf(' '));
+        label = label.substring(0,label.indexOf(" "));
         initCards(label);
     }
 });
 
 $(document).ready(function () {
-    $('#feed').html('Loading data...<div class="loader"></div>');
+    $("#feed").html("Loading data...<div class='loader'></div>");
     initCards();
-    $('body').css('background-image', 'url(images/back1.jpg)');
+    $("body").css("background-image", "url(images/back1.jpg)");
 });
 
 
