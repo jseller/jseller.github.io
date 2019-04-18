@@ -466,25 +466,33 @@ function render() {
     renderer.render( scene, camera );
 }
 
-var lts = ['table', 'sphere' , 'helix', 'grid'];
+var lts = ['table', 'grid', 'sphere' , 'helix'];
 var displayIndex = 0;
 var displayTimer = null;
 function changeDisplay() {
     displayIndex = displayIndex == 3? 0: (displayIndex % 4) + 1; 
+    var min=0; 
+    var max=images.length;  
+    var random =Math.floor(Math.random() * (+max - +min)) + +min; 
+    var attr = 'url(images/'+images[random]+')';
+    $('body').css('background-image', attr);
     var cmd = 'transform( targets.'+lts[displayIndex]+', 3000 ); changeDisplay();'
     displayTimer = setTimeout(cmd, 6000);
 }
+
 $('body').on('click', '#rotate', function() {
     changeDisplay();
 });
 
 $('body').on('click', '.change-back', function() {
+    clearTimeout(displayTimer);
     var url = $(this).data('url');
     var attr = 'url(images/'+url+')';
     $('body').css('background-image', attr);
 });
 
 $('body').on('click', '.labelButton', function() {
+    clearTimeout(displayTimer);
     $("#labels").empty();
     $("#labels").html('Loading data...<div class="loader"></div>');
     var label = $(this).val();
