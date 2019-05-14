@@ -23,7 +23,7 @@
     }
 		
 
-    a {
+    h4, a {
         color: #ffffff;
     }
 
@@ -41,14 +41,16 @@
     #menu {
         position: absolute;
         bottom: 40px;
-        width: 100%;
+        right:50px;
+        width: 50%;
         text-align: center;
     }
 
-    #labels {
+    .links {
         position: absolute;
-        top: 50px;
-        width: 100%;
+        bottom: 50px;
+        left: 10px;
+        width: 50%;
         text-align: center;
     }
 
@@ -148,9 +150,14 @@
 
 <div id="container"></div>
 <div id="info" style="display: none;">notes on software development</div>
-<div id='labels'>
+<div class='links'>
+    <h4>Links</h4>
+    <div id='labels'>
+    </div>
+<a href="resume.html"><button> resume</button> </a>
 </div>
 <div id='menu'>
+    <h4>Layout</h4>
     <button id='feed'>jseller.blogspot.com</button>
     <button class='layout' style='display: none' id='table'>Table</button>
     <button class='layout' style='display: none' id='sphere'>Sphere</button>
@@ -480,7 +487,7 @@ function changeDisplay() {
     var random =Math.floor(Math.random() * (+max - +min)) + +min; 
     var attr = "url(images/"+images[random]+")";
     $("body").css("background-image", attr);
-    var cmd = "transform( targets."+lts[displayIndex]+", 3000 ); changeDisplay();"
+    var cmd = "transform( targets."+lts[displayIndex]+", 2000 ); changeDisplay();"
     displayTimer = setTimeout(cmd, 6000);
 }
 
@@ -512,7 +519,7 @@ $("body").on("click", ".labelButton", function() {
 $(document).ready(function () {
     $("#feed").html("Loading data...<div class='loader'></div>");
     initCards();
-    $("body").css("background-image", "url(images/back1.jpg)");
+    $("body").css("background-image", "url(images/p3.jpg)");
 });
 
 
