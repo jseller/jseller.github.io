@@ -1,267 +1,681 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Jonathan Seller</title>
-  <meta name="author" content="Jonathan Seller">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="HandheldFriendly" content="true">
-  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato:400,900|Balthazar">
-  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="responsive.css">
-	<style>
-		* { margin: 0; padding: 0; }
-		html { height: 101%; }
-		body { background: #f2f2f2; font-size: 62.5%; padding-bottom: 65px; color: #565656;}
-		
-		h1 { color: #454545; font-size: 3.6em; margin-bottom: 6px; }
-		h2 { color: #484848; font-size: 2.5em; margin-bottom: 10px; }
-		h3 { color: #484848;; font-weight: bold; font-size: 1.8em;  }
-		h4 { color: #656565; font-weight: bold; font-size: 1.75em; margin-bottom: 4px; }
-		
-		p { color: #565656; font-size: 1.8em; line-height: 1.4em; margin: 10px; padding-left: 35px; }
-		ul { display: block; list-style: none; }
-		ul li { padding-left: 45px; list-style-type: none; vertical-align: top; font-size: 1.5em;  }
-		
-		.links {color: #565656; font-size: 1.8em;}
-		.overview { padding-left: 45px; list-style-type: none; vertical-align: top; margin-bottom: 5px; color: #666; font-size: 1.6em; line-height: 2.3em; }
-		
-		img { border: 0; max-width: 100%; }
-		
-		a { color: #5582d6; text-decoration: none; }
-		a:hover { text-decoration: underline; }
-		
-		/** @group core layout **/
-		#w { margin: 0px 50px; padding: 20px 40px; padding-top: 35px; background: #fff; min-width: 260px; max-width: 900px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; -webkit-border-bottom-left-radius: 8px; -webkit-border-bottom-right-radius: 8px; -moz-border-radius-bottomleft: 8px; -moz-border-radius-bottomright: 8px; }
-		
-		header { width: 100%; }
-		
-		#info { float: left; margin-bottom: 12px; }
-		
-		#photo { float: right; }
-		#photo img { 
-		-webkit-border-radius: 3px;
-		-moz-border-radius: 3px;
-		border-radius: 55px;
-		-webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-		-moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-		background-color: #fff;
-		border: 1px solid #ccc;
-		padding: 5px; 
-		}
-		
-		#skills-left { display: block; float: left; margin-right: 30px; }
-		#skills-right { display: block; float: left;}
-		
-		.clearfix:after { content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0; }
-		.clearfix { display: inline-block; }
-		 
-		html[xmlns] .clearfix { display: block; }
-		* html .clearfix { height: 1%; }
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 
-		@media only screen and (max-width: 740px) {
-			h1 { font-size: 4.5em; }
-			h3 { font-size: 2.2em; }
-			h2 { display: block; text-align: center; }
-			#info { float: none; display: block; text-align: center; }
-			#photo {
-				float: none;
-				display: block;
-				text-align: center;
-			}
-			#w { padding: 20px 15px; }
-			p { padding: 0; }
-		}
-		
-		@media only screen and (max-width: 570px) {
-			ul li {
-				display: inline-block; 
-				padding-left: 15px; 
-				width: 140px; 
-				background-position: -5px 0px;
-				margin-right: 6px; 
-				line-height: 1.7em;
-			}
-			#skills-left, skills-right { margin-bottom: 15px; }
-		}
-		
-		@media only screen and (max-width: 480px) {
-			ul li { width: 120px; }
-			#w { margin: 0 20px; }
-		}
-		
-		@media only screen and (max-width: 320px) {
-			#w { margin: 0 10px; }
-		}
-		
-		/** iPhone only **/
-		@media screen and (max-device-width: 480px) {
-			ul li { width: 150px; }
-		}
-	</style>
+<head>
+    <title>Jonathan Seller | Resume</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Resume of Software Developer - Jonathan Seller">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link
+        href='https://fonts.googleapis.com/css?family=Roboto:400,500,400italic,300italic,300,500italic,700,700italic,900,900italic'
+        rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #545E6C;
+            background: #f5f5f5;
+            font-size: 14px;
+            padding: 30px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-weight: 700;
+        }
+
+        a {
+            color: #1c3495;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #07153e;
+        }
+
+        a:focus {
+            text-decoration: none;
+        }
+
+        p {
+            line-height: 1.5;
+        }
+
+        .wrapper {
+            background: #07153e;
+            max-width: 960px;
+            margin: 0 auto;
+            position: relative;
+            -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            -moz-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-wrapper {
+            background: #07153e;
+            position: absolute;
+            right: 0;
+            width: 240px;
+            height: 100%;
+            min-height: 800px;
+            color: #fff;
+        }
+
+        .sidebar-wrapper a {
+            color: #fff;
+        }
+
+        .sidebar-wrapper .profile-container {
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            text-align: center;
+            color: #fff;
+        }
+
+        .sidebar-wrapper .name {
+            font-size: 32px;
+            font-weight: 900;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-wrapper .tagline {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 16px;
+            font-weight: 400;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .sidebar-wrapper .profile {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-wrapper .contact-list .fa {
+            margin-right: 5px;
+            font-size: 18px;
+            vertical-align: middle;
+        }
+
+        .sidebar-wrapper .contact-list li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-wrapper .contact-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .sidebar-wrapper .contact-list .email .fa {
+            font-size: 14px;
+        }
+
+        .sidebar-wrapper .container-block {
+            padding: 30px;
+        }
+
+        .sidebar-wrapper .container-block-title {
+            text-transform: uppercase;
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .sidebar-wrapper .degree {
+            font-size: 14px;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-wrapper .education-container .item {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-wrapper .education-container .item:last-child {
+            margin-bottom: 0;
+        }
+
+        .sidebar-wrapper .education-container .meta {
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+            margin-bottom: 0px;
+            margin-top: 0;
+        }
+
+        .sidebar-wrapper .education-container .time {
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+            margin-bottom: 0px;
+        }
+
+        .sidebar-wrapper .languages-container .lang-desc {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .sidebar-wrapper .languages-list {
+            margin-bottom: 0;
+        }
+
+        .sidebar-wrapper .languages-list li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-wrapper .languages-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .sidebar-wrapper .interests-list {
+            margin-bottom: 0;
+        }
+
+        .sidebar-wrapper .interests-list li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-wrapper .interests-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .main-wrapper {
+            background: #fff;
+            padding: 60px;
+            padding-right: 300px;
+        }
+
+        .main-wrapper .section-title {
+            text-transform: uppercase;
+            font-size: 20px;
+            font-weight: 500;
+            color: #07153e;
+            position: relative;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .main-wrapper .section-title .fa {
+            width: 30px;
+            height: 30px;
+            margin-right: 8px;
+            display: inline-block;
+            color: #fff;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+            border-radius: 50%;
+            -moz-background-clip: padding;
+            -webkit-background-clip: padding-box;
+            background-clip: padding-box;
+            background: #07153e;
+            text-align: center;
+            padding-top: 8px;
+            font-size: 16px;
+            position: relative;
+            top: -2px;
+        }
+
+        .main-wrapper .section {
+            margin-bottom: 60px;
+        }
+
+        .main-wrapper .experiences-section .item {
+            margin-bottom: 30px;
+        }
+
+        .main-wrapper .upper-row {
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2px;
+        }
+
+        .main-wrapper .job-title {
+            color: #3F4650;
+            font-size: 16px;
+            margin-top: 0;
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+
+        .main-wrapper .time {
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: #97AAC3;
+        }
+
+        .main-wrapper .company {
+            margin-bottom: 10px;
+            color: #97AAC3;
+        }
+
+        .main-wrapper .project-title {
+            font-size: 16px;
+            font-weight: 400;
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .main-wrapper .projects-section .intro {
+            margin-bottom: 30px;
+        }
+
+        .main-wrapper .projects-section .item {
+            margin-bottom: 15px;
+        }
+
+        .skillset .item {
+            margin-left: 15px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .skillset .level-title {
+            font-size: 14px;
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+
+        .skillset .level-bar {
+            height: 12px;
+            background: #f5f5f5;
+        }
+
+        .skillset .level-bar-inner {
+            height: 12px;
+            background: #7ec6bb;
+        }
+
+        .footer {
+            padding: 30px;
+            padding-top: 60px;
+        }
+
+        .footer .copyright {
+            line-height: 1.6;
+            color: #545E6C;
+            font-size: 13px;
+        }
+
+        .footer .fa-heart {
+            color: #fb866a;
+        }
+
+
+        /* Extra small devices (phones, less than 768px) */
+
+        @media (max-width: 767px) {
+            .sidebar-wrapper {
+                position: static;
+                width: inherit;
+            }
+
+            .main-wrapper {
+                padding: 30px;
+            }
+
+            .main-wrapper .time {
+                position: static;
+                display: block;
+                margin-top: 5px;
+            }
+
+            .main-wrapper .upper-row {
+                margin-bottom: 0;
+            }
+        }
+
+
+        /* Small devices (tablets, 768px and up) */
+
+
+        /* Medium devices (desktops, 992px and up) */
+
+        @media (min-width: 992px) {
+            .skillset .level-title {
+                display: inline-block;
+                width: 30%;
+                margin-bottom: 0;
+            }
+
+            .skillset .level-bar {
+                display: inline-block;
+                width: 70%;
+                position: relative;
+                top: 1px;
+            }
+        }
+
+        .profile-img {
+            max-width: 100px;
+            margin-bottom: 15px;
+            border: 0px solid #fff;
+            border-radius: 100%;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+
 </head>
 
 <body>
-	<div id="w" itemscope itemtype="http://schema.org/Person">
-		<header class="clearfix">
-			<div id="info">			
-				<h1><span itemprop="name">Jonathan Seller</span></h1>
-				<h3><span itemprop="jobTitle">Software Developer</span></h3>
-			</div>
-			<div id="photo">
-				<img src="images/profile.png" alt="Jonathan Seller resume avatar" border="0" height="100" itemprop="image" />
-				<br/>
-				<span class="links">
-					<a href="https://jseller.bitbucket.io/" itemprop="url"><i class="fa fa-rss"></i> blog</a> 
-					&bull; <a href="https://linkedin.com/in/jseller" itemprop="url"><i class="fa fa-linkedin"></i> linkedin</a> 
-					&bull; <a href="https://bitbucket.org/jseller" itemprop="url"><i class="fa fa-bitbucket"></i> bitbucket</a>
-					&bull; <a href="https://github.com/jseller" itemprop="url"><i class="fa fa-github"></i> github</a>
-					&bull; <a href="https://jseller.bitbucket.io/JonathanSellerResume.pdf" itemprop="url"><i class="fa fa-file"></i> resume(PDF)</a> 
-						
-				</span>
-			</div>
-		</header>
-		
-		<section id="profile">
-			<p itemprop="description">
-				Professional full-stack software developer with experience in Sales Automation, Supply Chain Logistics, Requirements Engineering, Marketing Analytics, Public Transportation, Business Intelligence, and Financial Services.
-			</p>
-		</section>
-		
-		<section id="skills" class="clearfix" itemscope itemtype="http://schema.org/ItemList">
-			<table border="0">
-				<tr>
-					<td>
-						<ul>
-							<li class="overview"><b>Product Roadmap and Release</b></li>
-							<li class="overview">Feature Strategy, Triage and Release</li>
-							<li class="overview">BDD with User Stories and Personas</li>
-							<li class="overview">Agile (Scrum/Kanban), DDD, and Waterfall process</li>
-						</ul>		
-					</td>
-					<td>
-						<ul>
-							<li class="overview"><b>Full-Stack Development</b></li>
-							<li class="overview">Python &bull; Java &bull; C++</li>
-							<li class="overview">Typescript (Angular, React, Node), JavaScript</li>
-							<li class="overview">Postgres, MySQL, Redis, Mongo, Couchbase</li>
-						</ul>
-					</td>
-					<td>
-						<ul>
-							<li class="overview"><b>Devops and Scalability</b></li>
-							<li class="overview">Docker &bull; docker-compose &bull; Linux</li>
-							<li class="overview">GCP, AWS, Azure, Linode</li>
-							<li class="overview">Jenkins CI, Bitbucket Pipelines, Github Actions</li>
-						</ul>
-					</td>
-				</tr>
-			</table>
-		</section>
-				
-		<section id="experience">
-			<h2>Experience</h2>
+    <div class="wrapper">
+        <div class="sidebar-wrapper">
+            <div class="contact-container container-block">
+                <ul class="list-unstyled contact-list">
+                    <li class="email"><i class="fa fa-envelope"></i><a href="jseller27@gmail.com">jseller27 _at_
+                            gmail.com</a></li>
+                    <li class="website"><i class="fa fa-globe"></i><a href="http://jseller.bitbucket.io"
+                            target="_blank">jseller.bitbucket.io</a></li>
+                    <li class="linkedin"><i class="fa fa-linkedin"></i><a href="https://linkedin.com/in/jseller"
+                            target="_blank">in/jseller</a></li>
+                    <li class="bitbucket"><i class="fa fa-bitbucket"></i><a href="https://bitbucket.org/jseller"
+                            target="_blank">jseller</a></li>
+                    <li class="github"><i class="fa fa-github"></i><a href="http://github.com/jseller"
+                            target="_blank">jseller</a></li>
+                    <li class="download"><i class="fa fa-file"></i><a
+                            href="https://jseller.bitbucket.io/JonathanSellerResume.pdf"> PDF</a></li>
+                </ul>
+            </div>
+            <div class="education-container container-block">
+                <h2 class="container-block-title">Education</h2>
+                <div class="item">
+                    <h4 class="degree">Mathematics with Computer Science </h4>
+                    <h5 class="meta">University of PEI</h5>
+                    <p>Honorable Mention in APICS/IEEE &#39;96 Computer programming competition</p>
+                </div>
+            </div>
+        </div>
 
-			<h3>Tealbook - Principal Technical Architect  &nbsp;(May 2022-Present) </h3>
-			<p> Led design and development of a new Supplier Data Platform
-				<ul>
-					<li>Python/Flask API with distrbuted data</li>
-					<li>Product Architecture for Supplier Data APIs and Pipelines, Requirements Development using BDD</li>
-					<li>Data Science ELT pipeline using Airflow/GCP Composer with Cloud SQL Postgres dbs</li>
-					<li>CI/CD with github, Docker with automated TDD, functional (karate) and load (locust) Testing</li>
-					<li>GCP BigQuery, Cloud Functions, PubSub event driven architecture</li>
-				</ul>
-			</p>
+        <div class="main-wrapper">
+            <section class="section summary-section">
+                
+                <h1 class="section-title"><img src="images/profile.png" alt="Jonathan Seller resume avatar" height="100">&nbsp; Jonathan Seller</h1>
+                <div class="summary">
+                    <p> Professional full-stack software developer with experience in Sales Automation, Supply Chain
+                        Logistics, Requirements Engineering, Marketing Analytics, Public Transportation, Business
+                        Intelligence, and Financial Services.</p>
+                </div>
+            </section>
+            <section class="skills-section section">
+                <h2 class="section-title"><i class="fa fa-rocket"></i>Skills</h2>
+                <h3>Applications and Data</h3>
+                <div class="skillset">
+                    <div class="item">React, JavaScript, html &amp; css
+                    </div>
+                </div>
+                <div class="skillset">
+                    <div class="item">Python &bull; Java &bull; C++
+                    </div>
+                </div>
+                <div class="skillset">
+                    <div class="item">Postgres, MySQL, Redis, BiqQuery, ElasticSearch
+                    </div>
+                </div>
 
-			<h3>Nylas - Senior Software Developer  &nbsp;(Feb 2021-May 2022) </h3>
-			<p> API development for rapidly scaling Calendar and Scheduling product
-				<ul>
-					<li>Python 2.7 and 3.8 Development using BDD and TDD techniques</li>
-					<li>Product Architecture for Scheduling API</li>
-					<li>Observability with Sentry, Honeycomb, Kibana. CI/CD with github, Docker, Harness</li>
-				</ul>
-			</p>
 
-		 	<h3>Proposify - Director, Product Integrations  &nbsp;(March 2020-Feb 2021) </h3>
-			<p> Managed squads, ran sprints, and version releases using BDD and Kanban 
-				<ul>
-					<li>API-first functionality to support clients (Appexchange, API) with the stack</li>
-					<li>Integrating the stack with sales tech (salesforce, hubspot, zoho)</li>
-				</ul>
-			</p>
-		
-			<h3>QRA - Software Engineer &nbsp;(March 2018 - March 2020) </h3>
-			<p> Designed functional requirements specifications with EARS and BDD to formalize requirements for validation and verification. NLP prototyping with python nltk.
-				<ul>
-					<li>Java OAuth2 authorization server with Spring, Postgres, Couchbase</li>
-					<li>C# Windows VSTO development and AngularJS development for Office365 clients</li>
-					<li>NLP development using apache open nlp and Spacy.io</li>
-					<li>Jenkins, Release Management for Azure and local install</li>
-				</ul>
-			</p>
+                <h3>Devops and Platform</h3>
+                <div class="skillset">
+                    <div class="item">Docker &bull; docker-compose &bull; Linux
+                    </div>
+                </div>
+                <div class="skillset">
+                    <div class="item">GCP, AWS, Azure, Linode
+                    </div>
+                </div>
+                <div class="skillset">
+                    <div class="item">Jenkins CI, Bitbucket Pipelines, Github Actions
+                    </div>
+                </div>
 
-			<h3>Swept - Lead Developer &nbsp;(January 2017 - March 2018) </h3> 
-			<p> Hired and mentored a team of Developers and QA and scaled architecture that decreased AWS cost by 70% while client base increased by 150%.Completed due diligence for VC, investment of ~2 Million CAD 
-				<ul>
-					<li>Scaling a HTML/JQuery/PHP Laravel app for 10-25k users</li>
-					<li>MySql, Redis, AWS Aurora</li>
-					<li>Code management, code review and Release Management for AWS</li>
-					<li>Continuous Integration with automated testing (Gherkin/pytest-bdd)</li>
-				</ul>
-			</p>
 
-			<h3>InNetwork - VP, Product and Technology &nbsp;(March 2014 &ndash; July 2016) </h3>
-			<p> Sold to gShift March 2016. First technical employee, grew a team of engineers and directed product strategy using Roadmapping, Personas, 
-			User Stories and Acceptance Criteria.
-				<ul>
-					<li>Python Django/Celery with Jquery/Bootstrap</li>
-					<li>Postgres, RabbitMQ, Redis, ElasticSearch</li>
-					<li>CI/CD with Jenkins. Monit, Datadog on AWS and Linode</li>
-				</ul>
-			</p>
+                <h3>Product Requirements</h3>
+                <div class="skillset">
+                    <div class="item">Roadmap Strategy, Feature Releases, DDD
+                    </div>
+                </div>
+                <div class="skillset">
+                    <div class="item">BDD with User Stories and Personas
+                    </div>
+                </div>
+                <div class="skillset">
+                    <div class="item">Agile (Scrum/Kanban) and Waterfall process
+                    </div>
+                </div>
+            </section>
 
-			<h3>Salesforce - Lead Member of the Technical Staff &nbsp;(radian6) (October 2010 &ndash; March 2014) </h3>
-			<p> Senior Developer/Team Lead for radian6 dashboards and salesforce marketing cloud social studio applications.
-				<ul>
-					<li>SQL/NoSql databases, queueing (MQ), caching (Redis, memcached) MongoDB, Postgres, Redis </li>
-					<li>JQuery/SalesforceUI Java (Struts and Dropwizard) web applications</li>
-					<li>TDD (JUnit), BDD (Selenium with jenkins) CI/CD with Jenkins</li>
-				</ul>				
-			</p>
+            <section class="section experiences-section">
+                <h2 class="section-title"><i class="fa fa-briefcase"></i>Experiences</h2>
+                <div class="item">
+                    <div class="meta">
+                        <div class="upper-row">
+                            <h3 class="job-title"> Principal Technical Architect</h3>
+                            <div class="time">(May 2022-Present)</div>
+                        </div>
+                        <div class="company">Tealbook</div>
+                    </div>
+                    <div class="details">
+                        <p>
+                            Led design and development of a new Supplier Data Platform
+                        </p>
+                        <ul>
+                            <li>Python/Flask API with distrbuted data</li>
+                            <li>Product Architecture for Supplier Data APIs and Pipelines, Requirements Development
+                                using BDD</li>
+                            <li>Data Science ELT pipeline using Airflow/GCP Composer with Cloud SQL Postgres dbs</li>
+                            <li>CI/CD with github, Docker with automated TDD, functional (karate) and load (locust)
+                                Testing</li>
+                            <li>GCP BigQuery, Cloud Functions, PubSub event driven architecture</li>
+                        </ul>
+                    </div>
+                </div>
 
-			<h3>Vizible - System Architect &nbsp;(Sept 2005 - Jan 2010) </h3>
-			<p> Lead Developer for 3D content browsing platform.
-				<ul>
-					<li>Event-based 3D User Interface using JavaScript with XPConnect/Spidermonkey engine</li>
-					<li>C++, STL, Boost, Mozilla/XPCOM and Ogre 3D engine</li>
-					<li>Multi-threaded Networking library that reduced response times by 4000%</li>
-				</ul>
-			</p>
+                <div class="item">
+                    <div class="meta">
+                        <div class="upper-row">
+                            <h3 class="job-title">Senior Software Developer </h3>
+                            <div class="time">(Feb 2021-May 2022)</div>
+                        </div>
+                        <div class="company">Nylas</div>
+                    </div>
+                    <div class="details">
+                        <p> API development for rapidly scaling Email, Calendar and Scheduling product
+                        </p>
+                        <ul>
+                            <li>Python 2.7 and 3.8 Development using BDD and TDD techniques</li>
+                            <li>Product Architecture for Scheduling API</li>
+                            <li>Observability with Sentry, Honeycomb, Kibana. CI/CD with github, Docker, Harness</li>
+                        </ul>
+                    </div>
+                </div>
 
-			<h3>Trapeze (CSI) - System Architect &nbsp;(June 2001 - May 2005) </h3>
-			<p>	Designed and implemented a scalable framework for delivering transit content to Internet devices.
-				<ul>
-					<li>XSLT for client devices; XHTML with XForms, XFrame and RelaxNG validation</li>
-					<li>C++ Framework on Trapeze Core Framework (WIN32 platform)</li>
-				</ul>				 
-			</p>
+                <div class="item">
+                    <div class="meta">
+                        <div class="upper-row">
+                            <h3 class="job-title">Director, Product Integrations </h3>
+                            <div class="time">(March 2020-Feb 2021)</div>
+                        </div>
+                        <div class="company">Proposify</div>
+                    </div>
+                    <div class="details">
+                        <p> Managed squads, ran sprints, and version releases using BDD and Kanban</p>
+                        <ul>
+                            <li>Projects using BDD and Kanban</li>
+                            <li>API-first functionality to support clients (Appexchange, API) with the product stack
+                            </li>
+                            <li>Integrating the stack with sales tech (salesforce, hubspot, zoho)</li>
+                        </ul>
+                    </div>
+                </div>
 
-			<h3>724 Solutions - Software Developer &nbsp;(August 1999 -June 2001) </h3>
-			<p> Mobile clients for banking and brokerage applications.
-				<ul>
-					<li>UI for small devices: HDML, WML, and HTML early specifications. WAP/WML browsers and gateways
-					</li>
-					<li>development of XSLT processor, C++ server</li>
-				</ul>
-		</section>
-		
-		<section id="education">
-			<h2>Education</h2>
-			<p><span itemprop="alumniOf">UPEI</span> 1990 <br/> Mathematics with Computer Science <br/> Honorable Mention in APICS/IEEE &#39;96 Computer programming competition
-		</section>
+                <div class="item">
+                    <div class="meta">
+                        <div class="upper-row">
+                            <h3 class="job-title">Software Engineer </h3>
+                            <div class="time">(March 2018 - March 2020)</div>
+                        </div>
+                        <div class="company">QRA</div>
+                    </div>
+                    <div class="details">
+                        <p> Designed functional requirements specifications with EARS and BDD to formalize requirements
+                            for
+                            validation and verification. NLP prototyping with python nltk.</p>
+                        <ul>
+                            <li>Java OAuth2 authorization server with Spring, Postgres, Couchbase</li>
+                            <li>C# Windows VSTO development and AngularJS development for Office365 clients</li>
+                            <li>NLP development using apache open nlp and Spacy.io</li>
+                            <li>Jenkins, Release Management for Azure and on-premise install</li>
+                        </ul>
+                    </div>
+                </div>
 
-	</div>
+                <div class="item">
+                    <div class="meta">
+                        <div class="upper-row">
+                            <h3 class="job-title">Swept - Lead Developer</h3>
+                            <div class="time">(January 2017 - March 2018)</div>
+                        </div>
+                        <div class="company">QRA</div>
+                    </div>
+                    <div class="details">
+                        <p> Hired and mentored a team of Developers and QA and scaled architecture that decreased AWS
+                            cost by
+                            70% while client base increased by 150%.
+                        </p>
+                        <ul>
+                            <li>Scaling a HTML/JQuery/PHP Laravel app for 10-25k users</li>
+                            <li>MySql, Redis, AWS Aurora</li>
+                            <li>Code management, code review and Release Management for AWS</li>
+                            <li>Continuous Integration with automated testing (Gherkin/pytest-bdd)</li>
+                            <li>Completed due diligence for VC, investment of ~2
+                                Million CAD</li>
+                        </ul>
+
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="meta">
+                        <div class="upper-row">
+
+                            <h3 class="job-title"> VP, Product and Technology </h3>
+                            <div class="time">&nbsp;(March 2014 &ndash; July 2016)</div>
+                        </div>
+                        <div class="company">InNetwork</div>
+                    </div>
+                    <div class="details">
+                        <p> Sold to gShift March 2016. First technical employee, grew a team of engineers and directed
+                            product
+                            strategy using Roadmapping, Personas,
+                            User Stories and Acceptance Criteria.
+                        </p>
+                        <ul>
+                            <li>Python Django/Celery with Jquery/Bootstrap</li>
+                            <li>Postgres, RabbitMQ, Redis, ElasticSearch</li>
+                            <li>CI/CD with Jenkins. Monit, Datadog on AWS and Linode</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="meta">
+                        <div class="upper-row">
+                            <h3 class="job-title"> Lead Member of the Technical Staff
+                            </h3>
+                            <div class="time">&nbsp;(October 2010 &ndash; March 2014)</div>
+                        </div>
+                        <div class="company">Salesforce&nbsp;(radian6)</div>
+                    </div>
+                    <div class="details">
+                        <p> Senior Developer/Team Lead for radian6 dashboards and salesforce marketing cloud social
+                            studio
+                            applications.
+                        </p>
+                        <ul>
+                            <li>SQL/NoSql databases, queueing (MQ), caching (Redis, memcached) MongoDB, Postgres, Redis
+                            </li>
+                            <li>JQuery/SalesforceUI Java (Struts and Dropwizard) web applications</li>
+                            <li>TDD (JUnit), BDD (Selenium with jenkins) CI/CD with Jenkins</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="meta">
+                        <div class="upper-row">
+                            <h3 class="job-title">System Architect </h3>
+                            <div class="time">(Sept 2005 - Jan 2010)</div>
+                        </div>
+                        <div class="company">Vizible</div>
+                    </div>
+                    <div class="details">
+                        <p> Lead Developer for 3D content browsing platform.
+                        </p>
+                        <ul>
+                            <li>Event-based 3D User Interface using JavaScript with XPConnect/Spidermonkey engine</li>
+                            <li>C++, STL, Boost, Mozilla/XPCOM and Ogre 3D engine</li>
+                            <li>Multi-threaded Networking library that reduced response times by 4000%</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="meta">
+                        <div class="upper-row">
+                            <h3 class="job-title">System Architect </h3>
+                            <div class="time">(June 2001 - May 2005)</div>
+                        </div>
+                        <div class="company">Trapeze (Constellation Software)</div>
+                    </div>
+                    <div class="details">
+
+                        <p> Designed and implemented a scalable framework for delivering transit content to Internet
+                            devices.
+                        </p>
+                        <ul>
+                            <li>XSLT for client devices; XHTML with XForms, XFrame and RelaxNG validation</li>
+                            <li>C++ Framework on Trapeze Core Framework (WIN32 platform)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="meta">
+                        <div class="upper-row">
+                            <h3 class="job-title">System Architect </h3>
+                            <div class="time">(August 1999 -June 2001)</div>
+                        </div>
+                        <div class="company">724 Solutions </div>
+                    </div>
+                    <div class="details">
+                        <p> Mobile clients for banking and brokerage applications.
+                        </p>
+                        <ul>
+                            <li>UI for small devices: HDML, WML, and HTML early specifications. WAP/WML browsers and
+                                gateways
+                            </li>
+                            <li>development of XSLT processor, C++ server</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+
+            </section>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="text-center">
+            <small class="copyright"><a href="http://jseller.bitbucket.io" target="_blank">Jonathan Seller</a></small>
+        </div>
+    </footer>
 </body>
+
 </html>
