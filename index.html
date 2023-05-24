@@ -59,13 +59,25 @@
     */
 
     .links {
+        position: absolute;
         left: 20px;
-        top: 240px;
+        top: 50px;
         color: #f1f1f1;
         width: 20%;
         text-align: center;
     
     }
+
+    .section-title {
+        color: rgba(255,255,255,0.75);
+        background: rgba(31, 65, 65, 0.75);
+        outline: 1px solid rgba(0,255,255,0.5);
+        border: 0px;
+        padding: 5px 10px;
+        margin: 2px;
+    }
+
+   
 
     /* Style the button used to pause/play the video */
     #myBtn {
@@ -186,14 +198,16 @@
 <div id="container"></div>
 <div id="info" style="display: none;"><a href="/">notes</a></div>
 <div class='links'>
-    <div id='labels'>
-    </div>
-</div>
-<div id='menu'>
+    <span>
+        <h4 class="section-title"><img src="images/profile.png" alt="Jonathan Seller resume avatar" height="50">&nbsp; Jonathan Seller</h4>
+    </span>
     <a href="https://linkedin.com/in/jseller"><button>linkedin.com/in/jseller</button></a> 
     <br/><a href="https://jseller.blogspot.com"><button>jseller.blogspot.com</button></a> 
     <a href="resume.html"><button> resume</button></a>    
-    <hr/>
+    <br/>
+    <div id='labels'>
+    </div>
+    <br/>
     <button class='layout' style='display: none' id='table'>Table</button>
     <button class='layout' style='display: none' id='sphere'>Sphere</button>
     <button class='layout' style='display: none' id='helix'>Helix</button>
